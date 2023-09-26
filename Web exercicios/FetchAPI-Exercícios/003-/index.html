@@ -1,0 +1,81 @@
+<!-- 3) Usando a API DummyJSON (https://dummyjson.com/), crie uma página Web que
+permita o usuário realizar consultas.-->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DummyJSON</title>
+  <style>
+    html, body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 16px;
+    }
+
+    main {
+      width: 51rem;
+      margin: 1rem auto;
+    }
+
+    input[type="text"], textarea, button {
+      text-align: right;
+      padding: 0.5rem;
+    }
+
+    input[type="text"] {
+      width: 10rem;
+      margin-bottom: 0.5rem;
+    }
+
+    textarea {
+      width: 50rem;
+      height: 10rem;
+      margin-bottom: 0.5rem;
+    }
+
+    button {
+      margin-bottom: 0.5rem;
+    }
+
+    #resp {
+      padding: 0.5rem;
+      background-color: orangered;
+      color: white;
+      width: 50rem;
+    }
+
+    .campo {
+      color: yellow;
+      font-weight: bold;
+    }
+  </style>
+  <script>
+    function imprime(objeto) {
+      var mensagem = JSON.stringify(objeto, null, 2);
+      
+      return mensagem;
+    }
+
+    async function getDados(modelo) {
+      await fetch(`https://app.dummyjson.com/data?template=${modelo}`)
+        .then((response) => response.json())
+        .then((json) => {
+          console.log(json);
+          respjson.innerHTML = imprime(json);
+        });
+    }
+  </script>
+</head>
+<body>
+  <main>
+    <h1>DummyJSON</h1>
+    <input id="modelo" type="text" value="{name:@name}">
+    <button onclick="getDados(modelo.value)">Consultar</button>
+    <div id="resp">
+      <p class="campo">Resposta:</p>
+      <p id="respjson"></p>
+    </div>
+  </main>
+</body>
+</html>

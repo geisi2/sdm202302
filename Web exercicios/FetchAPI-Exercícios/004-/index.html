@@ -1,0 +1,92 @@
+<!-- No Open Trivia (https://opentdb.com/api_config.php), selecione:
+• Number of Questions: 10
+• Select Category: Entertainment: Film
+• Select Difficulty: Easy
+• Select Type: Multiple Choice
+• Select Encoding: Default Encoding
+Depois, clique em "Generate API URL". Copie a URL gerada e cole na barra de pesquisa
+do navegador. Pressione <ENTER>. Copie o resultado retornado e cole num JSON
+Formatter para visualização:
+• https://www.toptal.com/developers/json-formatter
+• https://jsonformatter.curiousconcept.com/
+• https://www.jsonformatter.io/
+• https://codebeautify.org/jsonviewer
+
+Crie uma página Web, para busca e visualização dos resultados retornados por essa URL do
+Open Trivia.-->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Trivia</title>
+  <style>
+    html, body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 16px;
+    }
+
+    main {
+      width: 51rem;
+      margin: 1rem auto;
+    }
+
+    button {
+      text-align: right;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    #resp {
+      padding: 0.5rem;
+      background-color: orangered;
+      color: white;
+      width: 50rem;
+    }
+
+    .campo {
+      color: yellow;
+      font-weight: bold;
+    }
+  </style>
+  <script>
+    function imprime(objeto) {
+      var mensagem = "";
+      var questoes = objeto.results;
+      questoes.forEach(function (questao, index) {
+        mensagem += `
+        <br> <span class='campo'>Questão ${index + 1}:</span> ${questao.question}
+        <br> <span class='campo'>Categoria:</span> ${questao.category}
+        <br> <span class='campo'>Dificuldade:</span> ${questao.difficulty}
+        <br> <span class='campo'>Tipo:</span> ${questao.type}
+        <br> <span class='campo'>Resposta correta:</span> ${questao.correct_answer}
+        <br> <span class='campo'>Respostas incorretas:</span> ${questao.incorrect_answers.join(", ")}
+        <br>
+        `;
+      });
+      
+      return mensagem;
+    }
+
+    async function getTrivia() {
+      await fetch(`https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&type=multiple`)
+        .then((response) => response.json())
+        .then((json) => {
+          console.log(json);
+          respjson.innerHTML = imprime(json);
+        });
+    }
+  </script>
+</head>
+<body>
+  <main>
+    <h1>Open Trivia</h1>
+    <button onclick="getTrivia()">Consultar</button>
+    <div id="resp">
+      <p class="campo">Resposta:</p>
+      <p id="respjson"></p>
+    </div>
+  </main>
+</body>
+</html>

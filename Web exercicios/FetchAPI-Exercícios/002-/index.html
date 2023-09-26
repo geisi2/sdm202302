@@ -1,0 +1,88 @@
+<!-- Usando a API do ViaCep (https://viacep.com.br/), crie uma página Web que permita o
+usuário realizar consultas.-->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CEP</title>
+  <style>
+    html, body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 16px;
+    }
+
+    main {
+      width: 51rem;
+      margin: 1rem auto;
+    }
+
+    input[type="text"], button {
+      text-align: right;
+      padding: 0.5rem;
+    }
+
+    input[type="text"] {
+      width: 10rem;
+      margin-bottom: 0.5rem;
+    }
+
+    button {
+      margin-bottom: 0.5rem;
+    }
+
+    #resp {
+      padding: 0.5rem;
+      background-color: orangered;
+      color: white;
+      width: 50rem;
+    }
+
+    .campo {
+      color: yellow;
+      font-weight: bold;
+    }
+  </style>
+  <script>
+    function imprime(objeto) {
+      var mensagem = `
+      <br> {
+      <br> "<span class='campo'>cep</span>": ${objeto.cep},
+      <br> "<span class='campo'>logradouro</span>": ${objeto.logradouro},
+      <br> "<span class='campo'>complemento</span>": ${objeto.complemento},
+      <br> "<span class='campo'>bairro</span>": ${objeto.bairro},
+      <br> "<span class='campo'>localidade</span>": ${objeto.localidade},
+      <br> "<span class='campo'>uf</span>": ${objeto.uf},
+      <br> "<span class='campo'>ibge</span>": ${objeto.ibge},
+      <br> "<span class='campo'>gia</span>": ${objeto.gia},
+      <br> "<span class='campo'>ddd</span>": ${objeto.ddd},
+      <br> "<span class='campo'>siafi</span>": ${objeto.siafi}
+      <br> }
+      <br>`
+      
+      return mensagem;
+    }
+
+    async function getCep(cep) {
+      await fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        .then((response) => response.json())
+        .then((json) => {
+          console.log(json);
+          respjson.innerHTML = imprime(json);
+        });
+    }
+  </script>
+</head>
+<body>
+  <main>
+    <h1>CEP</h1>
+    <input id="cep" type="text" value="01001000">
+    <button onclick="getCep(cep.value)">Consultar</button>
+    <div id="resp">
+      <p class="campo">Resposta:</p>
+      <p id="respjson"></p>
+    </div>
+  </main>
+</body>
+</html>
