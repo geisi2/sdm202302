@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Preço Final do Produto</title>
+    <script type="text/javascript">
+        function calcularPrecoFinal() {
+            // Solicita ao usuário que insira o preço normal e a condição de pagamento
+            let precoNormal = document.getElementById('precoNormal').value;
+            let condicaoPagamento = document.getElementById('condicaoPagamento').value;
+
+            // Calcula o preço final com base na condição de pagamento
+            let precoFinal;
+            switch (condicaoPagamento) {
+                case "1":
+                    precoFinal = precoNormal * 0.9; // Desconto de 10%
+                    break;
+                case "2":
+                    precoFinal = precoNormal * 0.95; // Desconto de 5%
+                    break;
+                case "3":
+                    precoFinal = precoNormal; // Sem juros
+                    break;
+                case "4":
+                    precoFinal = precoNormal * 1.06; // Juros de 6%
+                    break;
+            }
+
+            // Exibe o preço final
+            alert("O preço final do produto é: R$" + precoFinal.toFixed(2));
+        }
+    </script>
+</head>
+<body>
+    <h1>Calcular Preço Final do Produto</h1>
+    <input type="number" id="precoNormal" placeholder="Insira o preço normal do produto">
+    <select id="condicaoPagamento">
+        <option value="1">À vista, em dinheiro ou PIX, recebe 10% de desconto.</option>
+        <option value="2">À vista, no cartão de crédito, recebe 5% de desconto.</option>
+        <option value="3">Em duas vezes, preço normal de etiqueta sem juros.</option>
+        <option value="4">Em três vezes, preço normal de etiqueta mais juros de 6%.</option>
+    </select>
+    <button onclick="calcularPrecoFinal()">Calcular</button>
+</body>
+</html>
